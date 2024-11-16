@@ -9,7 +9,6 @@ export const useUserStore = create((set, get) => ({
   checkingAuth: true,
 
   signup: async ({ name, email, password, confirmPassword }) => {
-    console.log("hello");
     set({ loading: true });
     console.log("inside aftre loading");
     if (password !== confirmPassword) {

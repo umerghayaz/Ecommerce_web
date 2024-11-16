@@ -22,7 +22,7 @@ const couponSchema = new mongoose.Schema(
 			default: true,
 		},
 		userId: {
-			type: mongoose.Schema.Types.ObjectId,
+		   type: String,
 			ref: "User",
 			required: true,
 			unique: true,
