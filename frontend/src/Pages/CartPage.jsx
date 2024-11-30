@@ -6,10 +6,13 @@ import CartItem from "../components/CartItem";
 import PeopleAlsoBought from "../components/PeopleAlsoBought";
 import OrderSummary from "../components/OrderSummary";
 import GiftCouponCard from "../components/GiftCouponCard";
+import { useSelector } from "react-redux";
 
 const CartPage = () => {
-  const { cart } = useCartStore();
+  // const { cart } = useCartStore();
+  const { cart, loading, error } = useSelector((state) => state.cart);
 
+console.log('cart,',cart)
   return (
     <div className="py-8 md:py-16">
       <div className="mx-auto max-w-screen-xl px-4 2xl:px-0">
@@ -25,6 +28,7 @@ const CartPage = () => {
             ) : (
               <div className="space-y-6">
                 {cart.map((item) => (
+                  console.log('itemm',item),
                   <CartItem key={item._id} item={item} />
                 ))}
               </div>

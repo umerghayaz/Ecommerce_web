@@ -1,10 +1,14 @@
 import { ShoppingCart, UserPlus, LogIn, LogOut, Lock } from "lucide-react";
 import { Link } from "react-router-dom";
-import { useUserStore } from "../stores/useUserStore";
+// import { useUserStore } from "../stores/useUserStore";
 import { useCartStore } from "../stores/useCartStore";
+import { logout } from "../redux/actions/userAction";
+import { useDispatch, useSelector } from "react-redux";
 
 const Navbar = () => {
-  const { user, logout } = useUserStore();
+  const dispatch = useDispatch()
+  // const { user, logout } = useUserStore();
+  const { user, loading, error } = useSelector((state) => state.user);
   console.log("userrrrrrrr", user);
   const isAdmin = user?.role === "admin";
     const { cart } = useCartStore();
@@ -64,7 +68,7 @@ const Navbar = () => {
               <button
                 className="bg-gray-700 hover:bg-gray-600 text-white py-2 px-4 
 						rounded-md flex items-center transition duration-300 ease-in-out"
-                onClick={logout}
+                onClick={dispatch(logout)}
               >
                 <LogOut size={18} />
                 <span className="hidden sm:inline ml-2">Log Out</span>

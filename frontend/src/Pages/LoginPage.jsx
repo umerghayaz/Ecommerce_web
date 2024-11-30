@@ -1,19 +1,26 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Link } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import { LogIn, Mail, Lock, ArrowRight, Loader } from "lucide-react";
-import { useUserStore } from "../stores/useUserStore";
+// import { useUserStore } from "../stores/useUserStore";
+import { login } from "../redux/actions/userAction";
+import { useDispatch, useSelector } from "react-redux";
 
 const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
-  const { login, loading } = useUserStore();
-
+  const dispatch = useDispatch()
+  // const { login, loading } = useUserStore();
+  const { user, loading, error } = useSelector((state) => state.user);
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log(email, password);
-    login(email, password);
+    const data = {
+      "email":email,
+      "password": password
+    }
+    dispatch(login(data));
+    console.log('executed')
   };
 
   return (

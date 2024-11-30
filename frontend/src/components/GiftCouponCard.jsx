@@ -1,14 +1,19 @@
  import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import { useCartStore } from "../stores/useCartStore";
+import { getMyCoupon,applyCoupon} from "../redux/actions/cartAction";
+import { useSelector, useDispatch } from "react-redux";
+import { removeCoupon } from "../redux/reducers/cartReducer";
 
 const GiftCouponCard = () => {
+  const dispatch = useDispatch()
+  const { coupon, loading, error ,isCouponApplied} = useSelector((state) => state.product);
   const [userInputCode, setUserInputCode] = useState("");
-  const { coupon, isCouponApplied, applyCoupon, getMyCoupon, removeCoupon } =
-    useCartStore();
+  // const {  isCouponApplied } =
+  //   useCartStore();
 
   useEffect(() => {
-    getMyCoupon();
+    dispatch(getMyCoupon());
   }, [getMyCoupon]);
 
   useEffect(() => {
@@ -21,7 +26,7 @@ const GiftCouponCard = () => {
   };
 
   const handleRemoveCoupon = async () => {
-    await removeCoupon();
+    await dispatch(removeCoupon());
     setUserInputCode("");
   };
 

@@ -13,20 +13,27 @@ import { useEffect } from "react";
 import LoadingSpinner from "./components/LoadingSpinner";
 import CartPage from "./Pages/CartPage";
 import { useCartStore } from "./stores/useCartStore";
+import { useDispatch, useSelector } from "react-redux";
+import { checkAuth } from "./redux/actions/userAction";
+import { getCartItems } from "./redux/actions/cartAction";
 // import PurchaseSuccessPage from "./pages/PurchaseSuccessPage";
 // import PurchaseCancelPage from "./pages/PurchaseCancelPage";
 
 function App() {
-  const { user, checkAuth, checkingAuth } = useUserStore();
-  const { getCartItems } = useCartStore();
+  const dispatch =  useDispatch()
+  const { user, loading, error,checkingAuth } = useSelector((state) => state.user);
+  const {cart } = useSelector((state) => state.cart);
+
+  // const { user, checkAuth, checkingAuth } = useUserStore();
+  // const { getCartItems } = useCartStore();
   useEffect(() => {
-    checkAuth();
+    dispatch(checkAuth());
   }, [checkAuth]);
 
   useEffect(() => {
     if (!user) return;
 
-    getCartItems();
+    dispatch(getCartItems());
   }, [getCartItems, user]);
 
   if (checkingAuth) return <LoadingSpinner />;

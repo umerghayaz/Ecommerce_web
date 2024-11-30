@@ -2,17 +2,19 @@ import toast from "react-hot-toast";
 import { ShoppingCart } from "lucide-react";
 import { useUserStore } from "../stores/useUserStore";
 import { useCartStore } from "../stores/useCartStore";
+import { addToCart } from "../redux/actions/cartAction";
+import { useDispatch, useSelector } from "react-redux";
 
 const ProductCard = ({ product }) => {
-  const { user } = useUserStore();
-  const { addToCart } = useCartStore();
+  const dispatch =useDispatch()
+  const { user, loading, error } = useSelector((state) => state.user);
   const handleAddToCart = () => {
     if (!user) {
       toast.error("Please login to add products to cart", { id: "login" });
       return;
     } else {
       // add to cart
-      addToCart(product);
+      dispatch(addToCart(product));
     }
   };
 

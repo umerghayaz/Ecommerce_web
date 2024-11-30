@@ -86,8 +86,7 @@ export const useProductStore = create((set) => ({
       let config = {
         headers: { Authorization: `Bearer ${token}` },
       };
-      const response = await axios.patch(
-        `http://localhost:5000/api/products/${productId}`,config
+      const response = await axios.patch(`http://localhost:5000/api/products/${productId}`,config
       );
       // this will update the isFeatured prop of the product
       set((prevProducts) => ({

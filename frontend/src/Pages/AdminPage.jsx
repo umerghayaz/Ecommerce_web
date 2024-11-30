@@ -4,8 +4,9 @@ import { motion } from "framer-motion";
 import AnalyticsTab from "../components/AnalyticsTab";
 import CreateProductForm from "../components/CreateProductForm";
 import ProductsList from "../components/ProductsList";
-import { useProductStore } from "../stores/useProductStore";
-
+import { fetchAllProducts } from "../redux/actions/productAction";
+import { useDispatch } from "react-redux";
+// import { useProductStore } from "../stores/useProductStore";
 const tabs = [
   { id: "create", label: "Create Product", icon: PlusCircle },
   { id: "products", label: "Products", icon: ShoppingBasket },
@@ -13,11 +14,12 @@ const tabs = [
 ];
 
 const AdminPage = () => {
+  const dispatch = useDispatch()
   const [activeTab, setActiveTab] = useState("create");
-  const { fetchAllProducts } = useProductStore();
+  // const { fetchAllProducts } = useProductStore();
 
   useEffect(() => {
-    fetchAllProducts();
+    dispatch(fetchAllProducts())
   }, [fetchAllProducts]);
 
   return (
