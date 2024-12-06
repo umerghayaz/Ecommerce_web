@@ -3,13 +3,31 @@ import { useCartStore } from "../stores/useCartStore";
 import { Link } from "react-router-dom";
 import { MoveRight } from "lucide-react";
 import { loadStripe } from "@stripe/stripe-js";
+
 // import axios from "../lib/axios";
 import axios from "axios";
+import { useSelector } from "react-redux";
+import { useEffect, useState } from "react";
 
 const stripePromise = loadStripe("");
 
 const OrderSummary = () => {
-  const { total, subtotal, coupon, isCouponApplied, cart } = useCartStore();
+  const [items, setItems] = useState()
+  const { coupon, isCouponApplied } = useCartStore();
+  const { cart} = useSelector((state) => state.product);
+  const [total, setTotal] = useState(0);
+  const [subtotal, setsubTotal] = useState(0);
+
+  // Function to calculate total
+  const calculateTotal = (cart) => {
+    const totalValue = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+    setTotal(totalValue);
+    setsubTotal(totalValue)
+  };
+  useEffect(() => {
+    calculateTotal(cart)
+  }, [cart]);
+console.log('total',total);
 
   const savings = subtotal - total;
   const formattedSubtotal = subtotal.toFixed(2);

@@ -17,7 +17,6 @@ export const useUserStore = create((set, get) => ({
 
       return toast.error("Passwords do not match");
     }
-
     try {
       console.log("name,email,passwword", name, email, password);
       const res = await axios.post("http://localhost:5000/api/auth/signup", {

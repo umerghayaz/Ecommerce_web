@@ -1,12 +1,20 @@
 import { motion } from "framer-motion";
 import { Trash, Star } from "lucide-react";
-import { useProductStore } from "../stores/useProductStore";
+// import { useProductStore } from "../stores/useProductStore";
+import { deleteProduct ,toggleFeaturedProduct, products, fetchAllProducts} from "../redux/actions/productAction";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
 
 const ProductsList = () => {
-  const { deleteProduct, toggleFeaturedProduct, products, fetchAllProducts } =
-    useProductStore();
+  const dispatch = useDispatch()
+  const { products, loading, error } = useSelector((state) => state.product);
 
-  console.log("products", products);
+  // const { deleteProduct, toggleFeaturedProduct, products, fetchAllProducts } =
+  //   useProductStore();
+  useEffect(() => {
+    //Runs on the first render
+    console.log("products", products);
+  }, [products]);
 
   return (
     <motion.div
@@ -81,7 +89,7 @@ const ProductsList = () => {
               </td>
               <td className="px-6 py-4 whitespace-nowrap">
                 <button
-                  onClick={() => toggleFeaturedProduct(product._id)}
+                  onClick={() => dispatch(toggleFeaturedProduct(product._id))}
                   className={`p-1 rounded-full ${
                     product.isFeatured
                       ? "bg-yellow-400 text-gray-900"
@@ -93,7 +101,7 @@ const ProductsList = () => {
               </td>
               <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
                 <button
-                  onClick={() => deleteProduct(product._id)}
+                  onClick={() => dispatch(deleteProduct(product._id))}
                   className="text-red-400 hover:text-red-300"
                 >
                   <Trash className="h-5 w-5" />

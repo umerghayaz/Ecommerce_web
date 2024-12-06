@@ -3,14 +3,21 @@ import { useProductStore } from "../stores/useProductStore";
 import { useParams } from "react-router-dom";
 import { motion } from "framer-motion";
 import ProductCard from "../components/ProductCard";
-
+import { useDispatch, useSelector } from "react-redux";
+import { fetchProductsByCategory } from "../redux/actions/productAction";
 const CategoryPage = () => {
-  const { fetchProductsByCategory, products } = useProductStore();
+  // const { fetchProductsByCategory } = useProductStore();
+  // let { cart, loading, error } = useSelector((state) => state.cart);
+  let { products,cart,} = useSelector((state) => state.product);
+  // if (cart.length === 0){
+  //   cart = products
+  // }
+  console.log('cart,',cart)
 
   const { category } = useParams();
-
+ const dispatch = useDispatch()
   useEffect(() => {
-    fetchProductsByCategory(category);
+   dispatch( fetchProductsByCategory(category));
   }, [fetchProductsByCategory, category]);
 
   console.log("products:", products);

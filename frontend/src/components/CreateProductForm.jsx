@@ -1,7 +1,9 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { PlusCircle, Upload, Loader } from "lucide-react";
-import { useProductStore } from "../stores/useProductStore";
+import { createProduct } from "../redux/actions/productAction";
+import { useDispatch } from "react-redux";
+// import { useProductStore } from "../stores/useProductStore";
 
 const categories = [
   "jeans",
@@ -22,13 +24,13 @@ const CreateProductForm = () => {
     image: "",
   });
 
-  const { createProduct, loading } = useProductStore();
-
+  // const { createProduct, loading } = useProductStore();
+  const dispatch =useDispatch()
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       console.log("products", newProduct);
-      await createProduct(newProduct);
+      await dispatch(createProduct(newProduct));
       // setNewProduct({
       //   name: "",
       //   description: "",
@@ -36,6 +38,7 @@ const CreateProductForm = () => {
       //   category: "",
       //   image: "",
       // });
+
     } catch {
       console.log("error creating a product");
     }

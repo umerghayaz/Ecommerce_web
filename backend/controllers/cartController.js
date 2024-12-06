@@ -21,16 +21,28 @@ export const addToCart = async (req, res) => {
 	try {
 		const { productId } = req.body;
 		const user = req.user;
-
+        const productItem = await Product.find().lean();
 		const existingItem = user.cartItems.find((item) => item.id === productId);
+		const userCartItems = user.cartItems;
+		let filteredProducts = [];
 		if (existingItem) {
 			existingItem.quantity += 1;
 		} else {
 			user.cartItems.push(productId);
 		}
-
 		await user.save();
-		res.json(user.cartItems);
+		if (Array.isArray(userCartItems)) {			
+			 filteredProducts = productItem
+			.filter(product =>
+			  userCartItems.some(update => update._id.equals(product._id)) // Compare using .equals()
+			)
+			.map(product => {
+			  const matchingUpdate = userCartItems.find(update => update._id.equals(product._id)); // Find matching item
+			  return { ...product, quantity: matchingUpdate.quantity }; // Add or update quantity
+			});
+		} 
+				
+		res.json(filteredProducts);
 	} catch (error) {
 		console.log("Error in addToCart controller", error.message);
 		res.status(500).json({ message: "Server error", error: error.message });
@@ -39,7 +51,7 @@ export const addToCart = async (req, res) => {
 
 export const removeAllFromCart = async (req, res) => {
 	try {
-		const { productId } = req.body;
+		const  productId  = req.params.id;
 		const user = req.user;
 		if (!productId) {
 			user.cartItems = [];
