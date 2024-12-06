@@ -1,15 +1,22 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { createProduct,deleteProduct,fetchAllProducts,fetchFeaturedProducts,fetchProductsByCategory,toggleFeaturedProduct } from "../actions/productAction";
+<<<<<<< HEAD
 import {removeFromCart,updateQuantity,getCartItems,addToCart} from "../actions/cartAction";
 import { toast } from "react-hot-toast";
+=======
+
+>>>>>>> c423a3b7784c31d9246cef03a52e344550aec046
 const productSlice = createSlice({
   name: "user",
   initialState: {
     products: [],
     loading: false,
     error: "",
+<<<<<<< HEAD
     cart: [],
 
+=======
+>>>>>>> c423a3b7784c31d9246cef03a52e344550aec046
   },
   reducers: {
     // Define your reducers here if needed
@@ -87,6 +94,7 @@ const productSlice = createSlice({
       state.products = [];
       state.loading = false;
     })
+<<<<<<< HEAD
     builder.addCase(fetchProductsByCategory.pending, (state) => {
       state.loading = true;
       state.error = null;    })
@@ -159,6 +167,8 @@ const productSlice = createSlice({
         toast.error(action.payload);
       })
   
+=======
+>>>>>>> c423a3b7784c31d9246cef03a52e344550aec046
   },
 });
 
