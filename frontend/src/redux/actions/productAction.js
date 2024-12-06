@@ -76,7 +76,6 @@ export const fetchFeaturedProducts = createAsyncThunk("fetchFeaturedProducts", a
     return isRejectedWithValue(error.response);
   }
 });
-<<<<<<< HEAD
 export const fetchProductsByCategory = createAsyncThunk(
   "products/fetchByCategory",
   async (category, { rejectWithValue }) => {
@@ -98,6 +97,3 @@ export const fetchProductsByCategory = createAsyncThunk(
     }
   }
 );
-=======
-
->>>>>>> c423a3b7784c31d9246cef03a52e344550aec046
