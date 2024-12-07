@@ -30,46 +30,7 @@ export const cartSlice = createSlice({
     },
   
     
-    calculateTotals: (state) => {
-    //   console.log('fffffffffffffffff',state.cart)
-    //   const fff=state.cart.reduce(
-    //     (sum, item) => sum + item.price * item.quantity
-    //   )
-    //   console.log('dddddddddd',fff)
-    //   state.subtotal = state.cart.reduce(
-    //     (sum, item) => sum + item.price * item.quantity
-    //   );
-    //   if (state.coupon) {
-    //     const discount = state.subtotal * (state.coupon.discountPercentage / 100);
-    //     state.total = state.subtotal - discount;
-    //   } else {
-    //     state.total = state.subtotal;
-    //   }
-    // },'
-    console.log('inside total');
-    
-    if (!Array.isArray(state.cart)) {
-      console.error('Cart is not an array:', state.cart);
-      state.cart = []; // Default to an empty array
-    }
-    
-    const fff = state.cart.reduce(
-      (sum, item) => sum + (item.price || 0) * (item.quantity || 0),
-      0
-    );
-    console.log('Subtotal:', fff);
-    
-    state.subtotal = state.cart.reduce(
-      (sum, item) => sum + (item.price || 0) * (item.quantity || 0),
-      0
-    );
-    
-    if (state.coupon && typeof state.coupon.discountPercentage === 'number') {
-      const discount = state.subtotal * (state.coupon.discountPercentage / 100);
-      state.total = state.subtotal - discount;
-    } else {
-     } state.total = state.subtotal;
-    }
+   
     
   },
   extraReducers: (builder) => {
@@ -77,6 +38,7 @@ export const cartSlice = createSlice({
         state.coupon = action.payload;
       })
       builder.addCase(applyCoupon.fulfilled, (state, action) => {
+        console.log('actionn',action.payload)
         state.coupon = action.payload;
         state.isCouponApplied = true;
       })

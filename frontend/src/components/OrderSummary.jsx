@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { useCartStore } from "../stores/useCartStore";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { MoveRight } from "lucide-react";
 import { loadStripe } from "@stripe/stripe-js";
 
@@ -8,26 +8,35 @@ import { loadStripe } from "@stripe/stripe-js";
 import axios from "axios";
 import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
-
-const stripePromise = loadStripe("");
+ 
+// const stripePromise = loadStripe("");
 
 const OrderSummary = () => {
+  const navigate =useNavigate()
   const [items, setItems] = useState()
-  const { coupon, isCouponApplied } = useCartStore();
+  const {coupon,isCouponApplied} = useSelector((state) => state.cart);
+  // const { coupon, isCouponApplied } = useCartStore();
   const { cart} = useSelector((state) => state.product);
   const [total, setTotal] = useState(0);
   const [subtotal, setsubTotal] = useState(0);
 
   // Function to calculate total
-  const calculateTotal = (cart) => {
-    const totalValue = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+  const calculateTotal = (cart,coupon) => {
+    let totalValue = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+    let subtotal = totalValue
+    if (coupon) {
+      const discount = totalValue * (coupon.discountPercentage / 100);
+      totalValue = totalValue - discount;
+    }
     setTotal(totalValue);
-    setsubTotal(totalValue)
+    setsubTotal(subtotal)
   };
   useEffect(() => {
-    calculateTotal(cart)
-  }, [cart]);
+    calculateTotal(cart,coupon)
+    console.log('coupon',coupon)
+  }, [cart,isCouponApplied]);
 console.log('total',total);
+console.log('coupon',coupon)
 
   const savings = subtotal - total;
   const formattedSubtotal = subtotal.toFixed(2);
@@ -35,7 +44,7 @@ console.log('total',total);
   const formattedSavings = savings.toFixed(2);
 
   const handlePayment = async () => {
-    const stripe = await stripePromise;
+    // const stripe = await stripePromise;
     const token = localStorage.getItem("token");
     let config = {
       headers: { Authorization: `Bearer ${token}` },
@@ -50,13 +59,14 @@ console.log('total',total);
     );
 
     const session = res.data;
-    const result = await stripe.redirectToCheckout({
-      sessionId: session.id,
-    });
+    navigate('/purchase-success')
+    // const result = await stripe.redirectToCheckout({
+    //   sessionId: session.id,
+    // });
 
-    if (result.error) {
-      console.error("Error:", result.error);
-    }
+    // if (result.error) {
+    //   console.error("Error:", result.error);
+    // }
   };
 
   return (

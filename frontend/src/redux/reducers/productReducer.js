@@ -9,6 +9,7 @@ const productSlice = createSlice({
     loading: false,
     error: "",
     cart: [],
+    isCouponApplied:false
 
   },
   reducers: {

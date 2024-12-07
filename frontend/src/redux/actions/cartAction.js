@@ -63,9 +63,11 @@ export const applyCoupon  = createAsyncThunk("applyCoupon ", async (data) => {
   try {
     const token = localStorage.getItem("token");
     let config = {headers: { Authorization: `Bearer ${token}` },};
+    console.log('hgheeeeeeeee',data)
+    const code = data
     const response = await axios.post(
       "http://localhost:5000/api/coupons/validate",
-      { data },
+      { code },
       config
     );
     return response.data

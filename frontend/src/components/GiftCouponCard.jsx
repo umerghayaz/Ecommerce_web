@@ -7,7 +7,9 @@ import { removeCoupon } from "../redux/reducers/cartReducer";
 
 const GiftCouponCard = () => {
   const dispatch = useDispatch()
-  const { coupon, loading, error ,isCouponApplied} = useSelector((state) => state.product);
+  const {  loading, error } = useSelector((state) => state.product);
+  const {isCouponApplied,coupon,} = useSelector((state) => state.cart);
+
   const [userInputCode, setUserInputCode] = useState("");
   // const {  isCouponApplied } =
   //   useCartStore();
@@ -18,6 +20,8 @@ const GiftCouponCard = () => {
 
   useEffect(() => {
     if (coupon) setUserInputCode(coupon.code);
+    console.log('iscoupon',isCouponApplied);
+    
   }, [coupon]);
 
   const handleApplyCoupon = () => {

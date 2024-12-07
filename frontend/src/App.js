@@ -16,6 +16,8 @@ import { useCartStore } from "./stores/useCartStore";
 import { useDispatch, useSelector } from "react-redux";
 import { checkAuth } from "./redux/actions/userAction";
 import { getCartItems } from "./redux/actions/cartAction";
+import PurchaseSuccessPage from "./Pages/PurchaseSuccessPage";
+import PurchaseCancelPage from "./Pages/PurchaseCancelPage";
 // import PurchaseSuccessPage from "./pages/PurchaseSuccessPage";
 // import PurchaseCancelPage from "./pages/PurchaseCancelPage";
 
@@ -70,14 +72,14 @@ function App() {
             path="/cart"
             element={user ? <CartPage /> : <Navigate to="/login" />}
           />
-          {/* <Route
+          <Route
             path="/purchase-success"
             element={user ? <PurchaseSuccessPage /> : <Navigate to="/login" />}
           />
           <Route
             path="/purchase-cancel"
             element={user ? <PurchaseCancelPage /> : <Navigate to="/login" />}
-          /> */}
+          />
         </Routes>
       </div>
       <Toaster />
